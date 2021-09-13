@@ -198,6 +198,11 @@ const removePoints = asyncHandler(async (req, res) => {
   }
 })
 
+const rankUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({}).sort({points: -1}).select('-password')
+  res.json(users)
+})
+
 export {
   authUser,
   registerUser,
