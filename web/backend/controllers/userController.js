@@ -203,6 +203,8 @@ const rankUsers = asyncHandler(async (req, res) => {
   res.json(users)
 })
 
+const userOfTheMonth = user.pointsArray.filter(point => point.date === month)
+
 export {
   authUser,
   registerUser,
