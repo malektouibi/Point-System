@@ -203,6 +203,29 @@ const rankUsers = asyncHandler(async (req, res) => {
   res.json(users)
 })
 
+//Get Top 3 Ranked Users
+const getTopUsers = asyncHandler(async (req, res) => {
+  const topUsers = await User.find({}).sort({points: -1}).filter(3).select('-password')
+  res.json(topUsers)
+})
+
+//Get User Rank
+const getUserRank = asyncHandler(async (req, res) => {
+  const topUsers = await User.find({}).sort({points: -1}).select('-password')
+  const user = await User.findById(req.user._id)
+  const rank = await topUsers.findIndex( req.params.id === req.user._id) + 1
+
+  //Didnd't exactly know how to return the res.json containing the user with the extra rank property
+  if (user) {
+    res({
+      rank
+    })
+  } else {
+    res.status(404)
+    throw new Error('User not found')
+})
+
+
 const userOfTheMonth = user.pointsArray.filter(point => point.date === month)
 
 export {
